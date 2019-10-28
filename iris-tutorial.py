@@ -8,7 +8,7 @@ import pandas as pd
 from som import create_som, plot_som
 from topological import euclidean_distance2, euclidean_distance3, euclidean_distance4, get_distance_matrix, \
     triplet_ordering_measure
-from tutorial import live_plotter
+from liveplotter import live_plotter
 np.set_printoptions(precision=4)
 
 mnist = tf.keras.datasets.mnist
@@ -37,24 +37,11 @@ def add_noise_dimensions(features, labels):
 
 
 batch_size = 32
-
-train_dataset_url = "/Users/admin/.keras/datasets/iris_training.csv"
-train_dataset_fp = tf.keras.utils.get_file(fname=os.path.basename(train_dataset_url),
-                                           origin=train_dataset_url)
-
-# column order in CSV file
-column_names = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'species']
-
-feature_names = column_names[:-1]
-label_name = column_names[-1]
-
-class_names = ['Iris setosa', 'Iris versicolor', 'Iris virginica']
-
 train, test = mnist.load_data()
 images, labels = train
 print(images)
 print(labels)
-# original_train_dataset = tf.data.Dataset.from_tensor_slices((images, labels))
+original_train_dataset = tf.data.Dataset.from_tensor_slices((images, labels))
 
 
 # df = pd.read_csv(train_dataset_fp, index_col=None)
