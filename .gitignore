@@ -1,0 +1,9 @@
+build
+data
+temp.nosync
+tmp
+.idea
+__pycache__
+*.c
+*.so
+.DS_STORE
