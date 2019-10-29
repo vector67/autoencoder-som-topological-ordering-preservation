@@ -6,8 +6,7 @@ import time
 import numpy as np
 
 # from topological import get_distance_matrix
-from topological import triplet_ordering_measure, get_distance_matrix, euclidean_distance2, euclidean_distance3, \
-    euclidean_distance4
+from topological import triplet_ordering_measure, get_distance_matrix_measure
 
 # row_size = 4
 # my_array = np.array([[1, 2, 3, 4], [2, 3, 4, 5], [2, 4, 1, 9]])
@@ -46,7 +45,6 @@ from topological import triplet_ordering_measure, get_distance_matrix, euclidean
 # print(np.tile(my_array, (2, 2, 2)))
 # print(np.repeat(my_array, (2, 2), axis=1))
 
-euclidean_distances = [euclidean_distance2, euclidean_distance3, euclidean_distance4]
 
 num_samples_for_triplets = 5000
 
@@ -56,9 +54,6 @@ rows = np.random.normal(mu, sigma, (data_size, 4))
 print('completed initialization')
 sys.stdout.flush()
 
-distance_matrix_original_data = get_distance_matrix(rows)
-print('completed get_distance_matrix')
-sys.stdout.flush()
 labels = ['loss', 'distance_measure', 'triplet', 'triplet more samples']
 predictions = []
 # chance_for_permutations = np.subtract(np.exp(np.linspace(1, 0, 50)), np.repeat([math.e - 1], 50))
@@ -81,7 +76,8 @@ def debug(kwargs):
     sys.stdout.flush()
     previous_time = next_time
 
-number_of_differences = data_size*data_size - data_size
+
+number_of_differences = data_size * data_size - data_size
 
 for chance_for_permutation in chance_for_permutations:
     sum_topological_ordering_measure_by_distance = 0
@@ -98,10 +94,7 @@ for chance_for_permutation in chance_for_permutations:
             new_rows[x1] = new_rows[x2]
             new_rows[x2] = tmp
         debug('completed swapping')
-        distance_matrix = get_distance_matrix(np.array(new_rows))
-        debug('completed distance_matrix')
-        sum_diffs = np.sum(np.abs(distance_matrix - distance_matrix_original_data))
-        topological_ordering_measure_by_distance = sum_diffs / number_of_differences
+        topological_ordering_measure_by_distance = get_distance_matrix_measure(rows, np.array(new_rows), 400)
         debug('completed distance measure')
 
         triplet_measure = triplet_ordering_measure(rows, new_rows, num_samples_for_triplets)
